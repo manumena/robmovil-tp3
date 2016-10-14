@@ -41,7 +41,7 @@
 \lstset{
 	inputencoding=utf8/latin1,
 	language=C++,
-	basicstyle=\ttfamily\footnotesize,
+	basicstyle=\ttfamily,
 	keywordstyle=\bfseries\color{blue},
 	stringstyle=\color{red}\ttfamily,
 	commentstyle=\color{mygreen}\ttfamily,
@@ -50,19 +50,47 @@
 	numberstyle=\color{mygray}
 }
 
+\input{page.layout}
 \usepackage{caratula}
+
+\allowdisplaybreaks
+\newcommand{\ord}{\ensuremath{\operatorname{O}}}
+\newcommand{\nat}{\ensuremath{\mathbb{N}}}
+\newcommand{\acr}[1]{\lowercase{\textsc{#1}}}
+\newcommand{\comp}{\ensuremath{^{\operatorname{C}}}}
+\newcommand{\argmax}{\operatornamewithlimits{arg\,m\acute{a}x}}
+
+\newcommand{\subheading}[1]{\vspace{1em} \noindent\textbf{#1} \nopagebreak
+\smallskip \nopagebreak}
+
+% Lemas, definiciones, etc.
+\theoremstyle{plain}
+  \newtheorem{prop}{Proposición}
+  \newtheorem{lema}{Lema}
+\theoremstyle{remark}
+  \newtheorem{obs}{Observación}
+\theoremstyle{definition}
+  \newtheorem{defi}{Definición}
+
+% Pseudocódigo
+\usepackage[onelanguage, spanish]{algorithm2e}
+    % \NoCaptionOfAlgo
+    \LinesNumbered\RestyleAlgo{ruled}\IncMargin{1em}\DontPrintSemicolon
+    \SetArgSty{}\SetCommentSty{textsf}\SetFuncSty{textsf}
+    \SetKwInput{Input}{Entrada}
+    \SetKwInput{Output}{Salida}
+    \SetKwProg{For}{para}{ hacer}{fin}
+    \SetKwProg{Fn}{función}{:}{fin}
 
 \begin{document}
 \materia{Introducción a la Robótica Móvil}
 \submateria{Segundo cuatrimestre de 2016}
 \titulo{Trabajo Práctico N\textsuperscript{o} 3}
-\subtitulo{Filtro de Kalman}
-\integrante{Luis García Gómez}{078/14}{ivan.pondal@gmail.com}
+\integrante{Luis García Gómez}{540/12}{bianchishai@gmail.com}
 \integrante{Manuel Mena}{313/14}{manuelmena1993@gmail.com}
 
 \maketitle
+% no footer on the first page
 \thispagestyle{empty}
-
-\newpage
 
 \end{document}
