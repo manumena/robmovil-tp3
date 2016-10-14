@@ -88,13 +88,26 @@
 \submateria{Segundo cuatrimestre de 2016}
 \titulo{Trabajo Práctico N\textsuperscript{o} 3}
 \subtitulo{Localización basada en EKF: Predicción y corrección}
-\integrante{Luis García Gómez}{540/12}{bianchishai@gmail.com}
+\integrante{Luis García Gómez}{675/13}{garcia\_luis\_94@hotmail.com}
 \integrante{Manuel Mena}{313/14}{manuelmena1993@gmail.com}
 
 \maketitle
 % no footer on the first page
 \thispagestyle{empty}
+\newpage
+\section{Ejecución de comandos y explicación de proceso}
 
+\subsection{¿Qué empieza a suceder con la covarianza? ¿A qué se debe esto?. Dar una captura de pantalla y explicar lo observado.}
+
+Previo a ejecutar los comandos pedidos en el enunciado del trabajo, la covarianza se presenta circular con centro en el robot. Luego de ejecutar los comandos pedidos, la covarianza empieza a cambiar de forma hasta llegar a ser una elipse con el eje mayor perpendicular al poste que se tiene en frente:
+
+Sean 'x' e 'y' los ejes del robot, con 'y' paralelo a las ruedas del mismo (modelo diferencial), queda determinada una covarianza con forma de elipse cuyo eje mayor y menor son el eje 'y' y 'x' respectivamente. Esto puede explicarse a modo básico de la siguiente manera: La covarianza representa una región en la que su centro tiene probabilidad máxima de tener el poste a su frente. Esta probabilidad disminuye a medida que se analiza la mencionada región hacia sus extremos. Al momento de generar la covarianza, el filtro de Kalman, realiza estimaciones que determinan que sobre el eje 'y' la proporción en la que se puede mover el robot para que la probabilidad de tener el poste en frente sea significativa es mayor, no así en el eje 'x', determinando de esta manera los ejes mayor y menor mencionados al inicio.
+
+
+A continuación se muestra una imagen del estado del robot una vez realizadas las instrucciones en RVIZ
+\begin{center}
+\includegraphics[scale=0.4]{tp3_ej1.png}
+\end{center}
 \section{Filtro de Kalman extendido para un robot omnidireccional}
 
 \subsection*{Modelo de estado}
