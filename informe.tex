@@ -56,6 +56,7 @@
 \allowdisplaybreaks
 \newcommand{\ord}{\ensuremath{\operatorname{O}}}
 \newcommand{\nat}{\ensuremath{\mathbb{N}}}
+\newcommand{\real}{\ensuremath{\mathbb{R}}}
 \newcommand{\acr}[1]{\lowercase{\textsc{#1}}}
 \newcommand{\comp}{\ensuremath{^{\operatorname{C}}}}
 \newcommand{\argmax}{\operatornamewithlimits{arg\,m\acute{a}x}}
@@ -93,5 +94,53 @@
 \maketitle
 % no footer on the first page
 \thispagestyle{empty}
+
+\section{Filtro de Kalman extendido para un robot omnidireccional}
+
+\subsection*{Modelo de estado}
+
+Para el modelo de estado $\vec{x}$ se usará el mismo que para el robot diferencial, $\vec{x} = (x, y, \theta)$. Por ser omnidireccional podría ahorrarse modelar la rotación de la posición, pero para ello debería asegurarse que el sistema de sensado, en este caso el laser, mantiene la misma rotación con la que comenzó.
+
+\subsection*{Entradas de control}
+
+En cuanto a las entradas de control $\vec{u}$ sí serán diferentes a la del robot diferencial, debido a que este puede moverse en línea recta hasta su objetivo, sin necesidad de hacer curvas. El modelo para ello es $\vec{u} = (V_x, V_y, V_{\theta})$. Es importante notar que la información de la velocidad es respecto a los ejes del mundo, no de los del robot.
+
+\subsection*{Ruido del sensor}
+
+El ruido del sensor se modelará con una variable aleatoria Normal de media 0 y varianza $Q$, donde $Q$ estará determinada por el fabricante de los actuadores.
+
+\subsection*{Modelo de movimiento}
+
+El modelo de movimiento será $f(\vec{x}, \vec{u}, \vec{w}) = (\vec{x} + V_x \times \Delta t + w_1, \vec{y} + V_y \times \Delta t + w_2, \vec{\theta} + V_{\theta} \times \Delta t + w_3)$.
+
+El prior belief estará dado por $\hat{x}_t = f(\hat{x}_{t - 1}, \vec{u}_{t - 1}, \vec{0})$.
+
+Para el modelo de movimiento, ambos Jacobianos serán matrices de identidad en $\real^{3 \times 3}$. Esto tiene mucho sentido en cuanto al Jacobiano de $f$ respecto a $\vec{x}$ ya que por ser omnidireccional puede moverse en cada eje independientemente del resto.
+
+\subsection*{Mediciones}
+
+Las mediciones al igual que con el robot diferencial tendrán dos componentes: el ángulo con respecto al robot, y la distancia hacia él. $\vec{z} = (\rho, \phi)$
+
+\subsection*{Modelo de sensado}
+
+Para cada landmark se tendrá una predicción de cómo debería verse segun una posición y un ruido. Esta prediccíon estará dada por $z^l = h^l(\vec{x}, \vec{v})$. Lo que devolverá $h$ será la distancia del landmark al robot sumado a un ruido y el ángulo del landmark respecto al robot sumado a un ruido.
+
+$h^l(\vec{x}, \vec{v}) = (\sqrt{x_l^2 + y_l^2} + v_1, norm(atan2(y_l, x_l)) + v_2)$.
+
+El Jacobiano de $h$ respecto a $\vec{x}$ es $H = \left(
+\begin{matrix}
+\frac{x}{\sqrt{x^2 + y^2}} & \frac{y}{\sqrt{x^2 + y^2}} \\
+\frac{y}{x^2 + y^2} & \frac{-y}{x^2 + y^2} \\
+\end{matrix}
+\right)$
+
+El Jacobiano de $h$ respecto a $\vec{v}$ es $V = \left(
+\begin{matrix}
+1 & 0 \\
+0 & 1 \\
+\end{matrix}
+\right)$
+
+Este modelo permanece igual al del robot diferencial.
 
 \end{document}
